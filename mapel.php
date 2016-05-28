@@ -5,8 +5,8 @@ require_once 'include/DB_Functions.php';
 
 $db = new DB_Functions();
 
-        $json_score_all = $db->showScore();
+$json_mapel = $db->showMapel();
 
-echo json_encode($json_score_all);
+echo json_encode($json_mapel);
 
 ?>

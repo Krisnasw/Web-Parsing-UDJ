@@ -26,14 +26,14 @@ class DB_Functions {
      * Storing new user
      * returns user details
      */
-    public function storeUser($name, $email, $password) {
+    public function storeUser($name, $email, $password, $kelas) {
         $uuid = uniqid('', true);
         $hash = $this->hashSSHA($password);
         $encrypted_password = $hash["encrypted"]; // encrypted password
         $salt = $hash["salt"]; // salt
 
-        $stmt = $this->conn->prepare("INSERT INTO users(unique_id, name, email, encrypted_password, salt, created_at) VALUES(?, ?, ?, ?, ?, NOW())");
-        $stmt->bind_param("sssss", $uuid, $name, $email, $encrypted_password, $salt);
+        $stmt = $this->conn->prepare("INSERT INTO users(unique_id, name, email, encrypted_password, salt, kelas, created_at) VALUES(?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->bind_param("ssssss", $uuid, $name, $email, $encrypted_password, $salt, $kelas);
         $result = $stmt->execute();
         $stmt->close();
 
@@ -144,24 +144,8 @@ class DB_Functions {
     if($result->num_rows > 0) {
 
         while ($row = mysqli_fetch_array($result)) {
-            // $temp = array(
-            //     'id' => $row['id'],
-            //     'question' => $row['question'],
-            //     'pila' => $row['pila'],
-            //     'pilb' => $row['pilb'],
-            //     'pilc' => $row['pilc'],
-            //     'pild' => $row['pild'],
-            //     'correct_answer' => $row['correct_answer'],
-            //     'image' => "http://192.168.50.85/droid/images/".$row['image'].""
-            // );
-                // array_push($json_array, $temp);
             $json_array["quiz_questions"][] = $row;
         }
-        
-        // $data = json_encode($json_array);
- 		// $data = str_replace("\\", "", $data);
- 		// // echo "{\"daftar_soal\":" . $data . "}";
-
     }
 
     return $json_array;
@@ -190,11 +174,11 @@ class DB_Functions {
 
     }
 
-    public function showScore ($nama)
+    public function showScore ()
     {
         $json_array = array();
 
-        $q = $this->conn->query("SELECT * FROM hasil WHERE nama = '$nama'");
+        $q = $this->conn->query("SELECT * FROM hasil");
 
         if ($q->num_rows > 0) {
             # code...
@@ -204,6 +188,44 @@ class DB_Functions {
             }
         } else {
             $json_array["hasil"][] = "Kosong";
+        }
+
+        return $json_array;
+    }
+
+    public function showKat ()
+    {
+        $json_array = array();
+
+        $q = $this->conn->query("SELECT * FROM category");
+
+        if ($q->num_rows > 0) {
+            # code...
+            while ($row = mysqli_fetch_array($q)) {
+                # code...
+                $json_array["hasil"][] = $row;
+            }
+        } else {
+            $json_array["hasil"][] = "Kosong";
+        }
+
+        return $json_array;
+    }
+
+    public function showMapel ()
+    {
+        $json_array = array();
+
+        $q = $this->conn->query("SELECT * FROM mapel");
+
+        if ($q->num_rows > 0) {
+            # code...
+            while ($row = $q->fetch_array()) {
+                # code...
+                $json_array["hasil"][] = $row;
+            }
+        } else {
+            $json_array["hasil"][] = "Null";
         }
 
         return $json_array;
