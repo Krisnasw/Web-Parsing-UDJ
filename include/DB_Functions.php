@@ -235,7 +235,7 @@ class DB_Functions {
     {
         $json_array = array();
 
-        $q = $this->conn->query("select * from quiz_questions q, mapel m where q.id_mapel = m.id_mapel = 1 && q.id_paket = m.id_paket = 1");
+        $q = $this->conn->query("SELECT * FROM quiz_questions q, mapel m, paket p WHERE q.id_paket = m.id = p.id_mapel = 1 limit 1");
 
         if ($q->num_rows > 0) {
             # code...
@@ -254,7 +254,7 @@ class DB_Functions {
     {
         $json_array = array();
 
-        $q = $this->conn->query("select * from quiz_questions q, mapel m where q.id_mapel = m.id_mapel = 2 && q.id_paket = m.id_paket = 2");
+        $q = $this->conn->query("SELECT * FROM quiz_questions q, mapel m, paket p WHERE q.id_paket = m.id = p.id_mapel = 2");
 
         if ($q->num_rows > 0) {
             # code...
