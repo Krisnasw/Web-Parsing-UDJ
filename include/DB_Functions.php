@@ -244,7 +244,7 @@ class DB_Functions {
                 $json_array["hasil"][] = $row;
             }
         } else {
-            $json_array["hasil"][] = "Null";
+            $json_array["hasil"][] = "Tidak Ada Hasil";
         }
 
         return $json_array;
@@ -263,7 +263,7 @@ class DB_Functions {
                 $json_array["hasil"][] = $row;
             }
         } else {
-            $json_array["hasil"][] = "Null";
+            $json_array["hasil"][] = "Tidak Ada Hasil";
         }
 
         return $json_array;
