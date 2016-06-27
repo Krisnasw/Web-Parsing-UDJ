@@ -268,6 +268,25 @@ class DB_Functions {
 
         return $json_array;
     }
+    
+    public function paketAll ()
+    {
+        $json_array = array();
+        
+        $q = $this->conn->query("SELECT * FROM quiz_questions q, quiz z, paket p, mapel m WHERE q.id_paket = m.id = p.id_mapel = z.id_paket");
+        
+        if ($q->num_rows > 0) {
+            # code...
+            while ($row = $q->fetch_array()) {
+                # code...
+                $json_array["ngHasil"][] = $row;
+            }
+        } else {
+            $json_array["ngHasil"][] = "Nothing Special in Your Life";
+        }
+        
+        return $json_array;
+    }
 
 }
 
